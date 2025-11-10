@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: php-app
+  template:
+    metadata:
+      labels:
+        app: php-app
+    spec:
+      containers:
+      - name: php-app
+        image: php:7.4-apache
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          value: mysql-service
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        volumeMounts:
+        - name: app-files
+          mountPath: /var/www/html
+      volumes:
+      - name: app-files
+        configMap:
+          name: php-app-config
