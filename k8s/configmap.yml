@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-app-config
+data:
+  index.html: |
+    <!DOCTYPE html><html><head><title>Formulário</title></head><body>...</body></html>
+  incluir.php: |
+    <?php echo "Comentário enviado!"; ?>
+  conexao.php: |
+    <?php $conn = new mysqli(getenv('DB_HOST'), getenv('DB_USER'), getenv('DB_PASSWORD'), 'comentarios'); ?>
+  js.js: |
+    function validarFormulario() { return true; }
+  css.css: |
+    body { font-family: Arial; }
